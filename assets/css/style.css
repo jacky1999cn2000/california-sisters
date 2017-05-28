@@ -1,0 +1,38 @@
+.header {
+  margin: 10px 0px;
+}
+
+.header img {
+  width: 25px;
+  height: 25px;
+  vertical-align: bottom;
+}
+
+.header span {
+  font-size: 1.5em;
+  vertical-align: top;
+}
+
+.search-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.search-criteria-box {
+  display: flex;
+  flex-direction: row;
+  flex: .4;
+}
+
+.search-button-box {
+  flex: .6;
+}
+
+.search-criteria-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 10px;
+}
