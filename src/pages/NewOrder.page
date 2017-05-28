@@ -1,6 +1,6 @@
 <apex:page showHeader="true" sidebar="false" standardController="Order__c" extensions="OrderControllerExtension">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-	<link rel="stylesheet" type="text/css" href="https://1ef1573d.ngrok.io/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="https://71a085f7.ngrok.io/css/style.css"/>
 
 	<!-- header -->
 	<div class="header">
@@ -24,32 +24,20 @@
 					</div>
 					<div class="search-criteria-item">
 						<strong>大类</strong>
-						<select class="form-control">
-							<option>11111111</option>
-							<option>11111111</option>
-							<option>11111111</option>
-							<option>11111111</option>
-							<option>11111111</option>
+						<select class="form-control major-category">
+							<option value="novalue">-未选择-</option>
 						</select>
 					</div>
 					<div class="search-criteria-item">
 						<strong>小类</strong>
-						<select class="form-control">
-							<option>22222222</option>
-							<option>22222222</option>
-							<option>22222222</option>
-							<option>22222222</option>
-							<option>22222222</option>
+						<select class="form-control minor-category" disabled="true">
+							<option value="novalue">-未选择-</option>
 						</select>
 					</div>
 					<div class="search-criteria-item">
 						<strong>品牌</strong>
-						<select class="form-control">
-							<option>3333333333333333333333333</option>
-							<option>33333333</option>
-							<option>33333333</option>
-							<option>33333333</option>
-							<option>33333333</option>
+						<select class="form-control brand" disabled="true">
+							<option value="novalue">-未选择-</option>
 						</select>
 					</div>
 					<!-- </div> -->
@@ -61,6 +49,5 @@
 	</apex:form>
 
 	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<script src="https://1ef1573d.ngrok.io/js/script.js"/>
+	<script src="https://71a085f7.ngrok.io/js/script.js"/>
 </apex:page>

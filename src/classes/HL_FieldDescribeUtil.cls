@@ -13,7 +13,7 @@
  */
 public class HL_FieldDescribeUtil {
 
-  public static Map<String, List<String>> getDependentOptionsImpl(Schema.SObjectField theField, Schema.SObjectField ctrlField) {
+  public static Map<String, Map<String,String>> getDependentOptionsImpl(Schema.SObjectField theField, Schema.SObjectField ctrlField) {
     // validFor property cannot be accessed via a method or a property,
     // so we need to serialize the PicklistEntry object and then deserialize into a wrapper.
     List<Schema.PicklistEntry> contrEntries = ctrlField.getDescribe().getPicklistValues();
@@ -21,23 +21,25 @@ public class HL_FieldDescribeUtil {
       HL_FieldDescribeUtil.wrapPicklistEntries(theField.getDescribe().getPicklistValues());
 
     // Set up the return container - Map<ControllingValue, List<DependentValues>>
-    Map<String, List<String>> objResults = new Map<String, List<String>>();
+    Map<String, Map<String,String>> objResults = new Map<String, Map<String,String>>();
     List<String> controllingValues = new List<String>();
 
     for (Schema.PicklistEntry ple : contrEntries) {
-      String label = ple.getLabel();
-      objResults.put(label, new List<String>());
-      controllingValues.add(label);
+      // String label = ple.getLabel();
+      String value = ple.getValue();
+      objResults.put(value, new Map<String,String>());
+      controllingValues.add(value);
     }
 
     for (PicklistEntryWrapper plew : depEntries) {
       String label = plew.label;
+      String value = plew.value;
       String validForBits = base64ToBits(plew.validFor);
       for (Integer i = 0; i < validForBits.length(); i++) {
         // For each bit, in order: if it's a 1, add this label to the dependent list for the corresponding controlling value
         String bit = validForBits.mid(i, 1);
         if (bit == '1') {
-          objResults.get(controllingValues.get(i)).add(label);
+          objResults.get(controllingValues.get(i)).put(label,value);
         }
       }
     }
