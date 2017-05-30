@@ -36,3 +36,8 @@
   align-items: center;
   margin-right: 10px;
 }
+
+.paging-buttons-group {
+  margin-top: 10px;
+  text-align: center;
+}
