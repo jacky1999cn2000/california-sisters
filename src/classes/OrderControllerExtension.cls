@@ -6,6 +6,15 @@ public class OrderControllerExtension {
   public Integer noOfRecords { get; set; }
   public Integer size { get; set; }
 
+  /* parameters used for searching products (passed in by javascript function) */
+  public String productName { get; set; }
+  public String majorCategory { get; set; }
+  public String minorCategory { get; set; }
+  public String brand { get; set; }
+
+  /* comma delimited product ids for selected products (passed in by javascript function) */
+  public String productIds { get; set; }
+
   public OrderControllerExtension(ApexPages.StandardController stdController) {
     this.order = (Order__c)stdController.getRecord();
   }
@@ -15,7 +24,7 @@ public class OrderControllerExtension {
     get {
       if(setCon == null) {
         size = 5;
-        String queryString = 'SELECT Name, Major_Category__c, Minor_Category__c, Brand__c, Total_Quantity__c FROM Product__c ORDER BY Total_Quantity__c DESC';
+        String queryString = this.constructQuery(productName,majorCategory,minorCategory,brand);
         setCon = new ApexPages.StandardSetController(Database.getQueryLocator(queryString));
         setCon.setPageSize(size);
         noOfRecords = setCon.getResultSize();
@@ -24,6 +33,52 @@ public class OrderControllerExtension {
       return setCon;
     }
     set;
+  }
+
+  /*
+     get SOQL query
+   */
+  private String constructQuery(String productName, String majorCategory, String minorCategory, String brand){
+    System.debug('***constructQuery');
+    System.debug('***name '+productName);
+    System.debug('***major '+majorCategory);
+    System.debug('***minor '+minorCategory);
+    System.debug('***brand '+brand);
+
+    String query = 'SELECT Name, Major_Category__c, Minor_Category__c, Brand__c, Total_Quantity__c FROM Product__c';
+
+    if(productName != null && productName.trim() != '') {
+      query += ' WHERE Name LIKE \'%' + productName + '%\'';
+    }
+
+    if(majorCategory != null && majorCategory != 'novalue') {
+      if(query.contains('WHERE')) {
+        query += ' AND Major_Category__c = \'' + majorCategory + '\'';
+      }else{
+        query += ' WHERE Major_Category__c = \'' + majorCategory + '\'';
+      }
+    }
+
+    if(minorCategory != null && minorCategory != 'novalue') {
+      if(query.contains('WHERE')) {
+        query += ' AND Minor_Category__c = \'' + minorCategory + '\'';
+      }else{
+        query += ' WHERE Minor_Category__c = \'' + minorCategory + '\'';
+      }
+    }
+
+    if(brand != null && brand != 'novalue') {
+      if(query.contains('WHERE')) {
+        query += ' AND Brand__c = \'' + brand + '\'';
+      }else{
+        query += ' WHERE Brand__c = \'' + brand + '\'';
+      }
+    }
+
+    query += ' ORDER BY Total_Quantity__c DESC';
+
+    System.debug('***query '+query);
+    return query;
   }
 
   /*
@@ -37,6 +92,23 @@ public class OrderControllerExtension {
     }
 
     return producntsList;
+  }
+
+  /*
+     search for products
+   */
+  public PageReference searchProducts(){
+    setCon = null;
+    getProducts();
+    setCon.setPageNumber(1);
+    return null;
+  }
+
+  /*
+     select products
+   */
+  public PageReference selectProducts(){
+    return null;
   }
 
   /*

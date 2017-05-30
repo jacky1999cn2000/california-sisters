@@ -57,6 +57,15 @@ $(document).ready(function() {
     }
   });
 
+  // search for products (via calling apex:actionFunction "searchProducts")
+  $(".search-btn").click(function() {
+    let name = $(".product-name").val();
+    let major = $(".major-category").val();
+    let minor = $(".minor-category").val();
+    let brand = $(".brand").val();
+    searchProducts(name, major, minor, brand);
+  });
+
 });
 
 //// pagination scripts ////

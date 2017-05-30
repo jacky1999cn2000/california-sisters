@@ -5,7 +5,7 @@
 	<!-- header -->
 	<div class="header">
 		<img src="/img/icon/leaf32.png"></img>
-		<span>创建新订单项</span>
+		<span>添加订单项</span>
 		<ins>步骤 1/2</ins>
 	</div>
 
@@ -18,32 +18,37 @@
 		<apex:pageBlock title="选择产品" id="findProducts">
 			<div class="search-container">
 				<div class="search-criteria-box">
-					<!-- <div class="search-line"> -->
 					<div class="search-criteria-item" style="width: 250px;">
 						<strong>产品名称</strong>
-						<input type="text" class="form-control" placeholder="请输入产品名称..."/>
+						<input type="text" class="form-control product-name" placeholder="请输入产品名称..."/>
 					</div>
-					<div class="search-criteria-item">
+					<div class="search-criteria-item" style="width: 100px;">
 						<strong>大类</strong>
 						<select class="form-control major-category">
 							<option value="novalue">-未选择-</option>
 						</select>
 					</div>
-					<div class="search-criteria-item">
+					<div class="search-criteria-item" style="width: 100px;">
 						<strong>小类</strong>
 						<select class="form-control minor-category" disabled="true">
 							<option value="novalue">-未选择-</option>
 						</select>
 					</div>
-					<div class="search-criteria-item">
+					<div class="search-criteria-item" style="width: 100px;">
 						<strong>品牌</strong>
 						<select class="form-control brand" disabled="true">
 							<option value="novalue">-未选择-</option>
 						</select>
 					</div>
-					<!-- </div> -->
+					<div class="search-criteria-item">
+						<strong></strong>
+						<button type="button" class="search-btn">Search</button>
+					</div>
+					<div class="search-criteria-item">
+						<strong></strong>
+						<button type="button" class="select-btn">Select</button>
+					</div>
 				</div>
-				<div class="search-button-box"></div>
 			</div>
 		</apex:pageBlock>
 
@@ -51,8 +56,8 @@
 		<apex:pageBlock title="产品明细" id="productsInfo">
 			<!-- buttons -->
 			<!-- <apex:pageBlockButtons >
-	      <apex:commandButton onclick="validate(selectedIdString,'approve');clearSelection();return false;" value="Approve"/>
-	    </apex:pageBlockButtons> -->
+				<apex:commandButton onclick="selectProducts(selectedIdString);clearSelection();return false;" value="选择产品"/>
+			</apex:pageBlockButtons> -->
 
 			<!-- table -->
 			<apex:pageBlockTable value="{!Products}" var="product">
@@ -84,10 +89,16 @@
 		</apex:pageBlock>
 
 		<!-- action function -->
-		<!-- <apex:actionFunction action="{!validate}" name="validate" reRender="overview,details,messages">
-			<apex:param name="sightingIds" assignTo="{!sightingIds}" value="" />
-			<apex:param name="validateType" assignTo="{!validateType}" value="" />
-		</apex:actionFunction> -->
+		<apex:actionFunction action="{!searchProducts}" name="searchProducts" reRender="productsInfo">
+			<apex:param name="productName" assignTo="{!productName}" value=""/>
+			<apex:param name="majorCategory" assignTo="{!majorCategory}" value=""/>
+			<apex:param name="minorCategory" assignTo="{!minorCategory}" value=""/>
+			<apex:param name="brand" assignTo="{!brand}" value=""/>
+		</apex:actionFunction>
+
+		<apex:actionFunction action="{!selectProducts}" name="selectProducts" reRender="productsInfo">
+			<apex:param name="productIds" assignTo="{!productIds}" value=""/>
+		</apex:actionFunction>
 
 	</apex:form>
 
