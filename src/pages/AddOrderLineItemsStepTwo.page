@@ -1,0 +1,55 @@
+<apex:page showHeader="true" sidebar="false" standardController="Order__c" extensions="OrderControllerExtension">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://69a2c88f.ngrok.io/css/style.css"/>
+
+	<!-- header -->
+	<div class="header">
+		<img src="/img/icon/leaf32.png"></img>
+		<span>添加订单项</span>
+		<ins>步骤 2/2</ins>
+	</div>
+
+	<div class="create-btn-box">
+		<button type="button" class="select-btn">Create OrderLineItems</button>
+	</div>
+
+	<apex:form>
+		<!-- orderlineitem info -->
+		<apex:pageBlock title="订单项信息" id="oliInfo">
+			<!-- table -->
+			<table class="table table-hover">
+				<tr>
+					<th>名称</th>
+					<th>数量</th>
+					<th>价格(￥)</th>
+					<th>成本($)</th>
+					<th>大类</th>
+					<th>小类</th>
+					<th>品牌</th>
+				</tr>
+				<apex:repeat value="{!SelectedProducts}" var="product">
+					<tr data-productId="{!product.Id}">
+						<td>{!product.Name}</td>
+						<td>
+							<input type="text" class="form-control" placeholder="1"></input>
+						</td>
+						<td>
+							<input type="text" class="form-control" placeholder="{!product.Price_RMB__c}"></input>
+						</td>
+						<td>{!product.Cost_Dollar__c}</td>
+						<td>{!product.Major_Category__c}</td>
+						<td>{!product.Minor_Category__c}</td>
+						<td>{!product.Brand__c}</td>
+					</tr>
+				</apex:repeat>
+			</table>
+		</apex:pageBlock>
+
+		<apex:actionFunction action="{!testCall}" name="testCall" reRender="productsInfo"></apex:actionFunction>
+	</apex:form>
+
+	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://69a2c88f.ngrok.io/js/script2.js"/>
+</apex:page>

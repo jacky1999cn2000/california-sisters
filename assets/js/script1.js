@@ -1,7 +1,7 @@
 $ = jQuery.noConflict();
 $(document).ready(function() {
   //code when page is ready
-  console.log('ready');
+  console.log('page1 ready');
 
   // load options values for major-category
   OrderControllerExtension.getMajorCategories(function(result, event) {
@@ -59,11 +59,36 @@ $(document).ready(function() {
 
   // search for products (via calling apex:actionFunction "searchProducts")
   $(".search-btn").click(function() {
+    toastr.success('已经按照指定条件搜索并呈现结果', '通知', {
+      positionClass: "toast-bottom-center",
+      timeOut: 3000
+    });
     let name = $(".product-name").val();
     let major = $(".major-category").val();
     let minor = $(".minor-category").val();
     let brand = $(".brand").val();
     searchProducts(name, major, minor, brand);
+    clearSelection();
+  });
+
+  // search for products (via calling apex:actionFunction "searchProducts")
+  $(".select-btn").click(function() {
+    console.log('selectedIdString ', selectedIdString);
+    if (typeof selectedIdString == 'undefined' || selectedIdString.trim() == '') {
+      toastr.error('请选择至少一个产品', '错误', {
+        positionClass: "toast-bottom-center",
+        timeOut: 3000
+      });
+    } else {
+      selectProducts(selectedIdString);
+      clearSelection();
+    }
+  });
+
+  // search for products (via calling apex:actionFunction "searchProducts")
+  $(".test-btn").click(function() {
+    testCall();
+
   });
 
 });

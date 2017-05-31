@@ -15,8 +15,25 @@ public class OrderControllerExtension {
   /* comma delimited product ids for selected products (passed in by javascript function) */
   public String productIds { get; set; }
 
+  /* selected products retrieved via the passed in url parameter productIds for stepTwo page */
+  public List<Product__c> selectedProductList {get; set;}
+
   public OrderControllerExtension(ApexPages.StandardController stdController) {
     this.order = (Order__c)stdController.getRecord();
+
+    // both stepOne & stepTwo pages used this controller, but stepTwo page has a url parameter called "productIds"
+    productIds = ApexPages.currentPage().getParameters().get('productIds');
+
+    System.debug('***constroctor');
+    System.debug('***productIds '+productIds);
+
+    if(productIds != null && productIds.trim() != '') {
+      List<String> productIdList = productIds.split(',');
+      System.debug('***prodproductIdListuctIds '+productIdList);
+
+      selectedProductList = [SELECT Id, Name, toLabel(Major_Category__c), toLabel(Minor_Category__c), toLabel(Brand__c), Price_RMB__c, Cost_Dollar__c FROM Product__c WHERE Id IN : productIdList];
+      System.debug('***selectedProductList '+selectedProductList);
+    }
   }
 
   /* StandardSetController for pagination */
@@ -95,6 +112,13 @@ public class OrderControllerExtension {
   }
 
   /*
+     get function for products
+   */
+  public List<Product__c> getSelectedProducts(){
+    return selectedProductList;
+  }
+
+  /*
      search for products
    */
   public PageReference searchProducts(){
@@ -108,6 +132,22 @@ public class OrderControllerExtension {
      select products
    */
   public PageReference selectProducts(){
+    PageReference pr = Page.AddOrderLineItemsStepTwo;
+    // set id & productIds as page parameters, and redirect to step2 page
+    pr.getParameters().put('id',this.order.Id);
+    pr.getParameters().put('productIds',productIds);
+    pr.setRedirect(true);
+    return pr;
+  }
+
+
+  /*
+     select products
+   */
+  public PageReference testCall(){
+    System.debug('***order ID '+this.order.Id);
+    System.debug('***productIds '+productIds);
+
     return null;
   }
 
