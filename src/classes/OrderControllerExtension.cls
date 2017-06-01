@@ -15,6 +15,9 @@ public class OrderControllerExtension {
   /* comma delimited product ids for selected products (passed in by javascript function) */
   public String productIds { get; set; }
 
+  /* json string for product info (passed in by javascript function) */
+  public String productInfoListJsonString { get; set; }
+
   /* selected products retrieved via the passed in url parameter productIds for stepTwo page */
   public List<Product__c> selectedProductList {get; set;}
 
@@ -23,16 +26,9 @@ public class OrderControllerExtension {
 
     // both stepOne & stepTwo pages used this controller, but stepTwo page has a url parameter called "productIds"
     productIds = ApexPages.currentPage().getParameters().get('productIds');
-
-    System.debug('***constroctor');
-    System.debug('***productIds '+productIds);
-
     if(productIds != null && productIds.trim() != '') {
       List<String> productIdList = productIds.split(',');
-      System.debug('***prodproductIdListuctIds '+productIdList);
-
       selectedProductList = [SELECT Id, Name, toLabel(Major_Category__c), toLabel(Minor_Category__c), toLabel(Brand__c), Price_RMB__c, Cost_Dollar__c FROM Product__c WHERE Id IN : productIdList];
-      System.debug('***selectedProductList '+selectedProductList);
     }
   }
 
@@ -40,7 +36,7 @@ public class OrderControllerExtension {
   public ApexPages.StandardSetController setCon {
     get {
       if(setCon == null) {
-        size = 5;
+        size = 10;
         String queryString = this.constructQuery(productName,majorCategory,minorCategory,brand);
         setCon = new ApexPages.StandardSetController(Database.getQueryLocator(queryString));
         setCon.setPageSize(size);
@@ -56,11 +52,6 @@ public class OrderControllerExtension {
      get SOQL query
    */
   private String constructQuery(String productName, String majorCategory, String minorCategory, String brand){
-    System.debug('***constructQuery');
-    System.debug('***name '+productName);
-    System.debug('***major '+majorCategory);
-    System.debug('***minor '+minorCategory);
-    System.debug('***brand '+brand);
 
     String query = 'SELECT Name, Major_Category__c, Minor_Category__c, Brand__c, Total_Quantity__c FROM Product__c';
 
@@ -144,11 +135,38 @@ public class OrderControllerExtension {
   /*
      select products
    */
-  public PageReference testCall(){
-    System.debug('***order ID '+this.order.Id);
-    System.debug('***productIds '+productIds);
+  public PageReference createOLIs(){
+    // deserialize JSON string "productInfo" into Apex class
+    List<ProductInfo> productInfoList = (List<ProductInfo>)JSON.deserialize(productInfoListJsonString, List<ProductInfo>.class);
+    System.debug('***productInfoList '+productInfoList);
 
-    return null;
+    Moc_Config__c moc = Moc_Config__c.getOrgDefaults();
+    System.debug('***moc.ExchangeRate__c '+moc.ExchangeRate__c);
+
+    List<OrderLineItem__c> orderLineItemList = new List<OrderLineItem__c>();
+    for(ProductInfo productInfo : productInfoList) {
+      for(Integer i = 0; i < productInfo.quantities; i++) {
+        OrderLineItem__c orderLineItem = new OrderLineItem__c();
+        orderLineItem.Order__c = this.order.Id;
+        orderLineItem.Product__c = Id.valueOf(productInfo.productId);
+        orderLineItem.Price_RMB__c = productInfo.price;
+        orderLineItem.Cost_RMB__c = productInfo.cost * moc.ExchangeRate__c;
+        orderLineItemList.add(orderLineItem);
+      }
+    }
+
+    insert orderLineItemList;
+
+    PageReference pr = new PageReference('/'+this.order.Id);
+    pr.setRedirect(true);
+    return pr;
+  }
+
+  public class ProductInfo {
+    public String productId;
+    public Integer quantities;
+    public Decimal price;
+    public Decimal cost;
   }
 
   /*

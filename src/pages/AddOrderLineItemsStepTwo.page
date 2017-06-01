@@ -1,7 +1,7 @@
 <apex:page showHeader="true" sidebar="false" standardController="Order__c" extensions="OrderControllerExtension">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-	<link rel="stylesheet" type="text/css" href="https://69a2c88f.ngrok.io/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="https://f03166e4.ngrok.io/css/style.css"/>
 
 	<!-- header -->
 	<div class="header">
@@ -11,7 +11,7 @@
 	</div>
 
 	<div class="create-btn-box">
-		<button type="button" class="select-btn">Create OrderLineItems</button>
+		<button type="button" class="create-btn">Create OrderLineItems</button>
 	</div>
 
 	<apex:form>
@@ -29,15 +29,17 @@
 					<th>品牌</th>
 				</tr>
 				<apex:repeat value="{!SelectedProducts}" var="product">
-					<tr data-productId="{!product.Id}">
+					<tr data-id="{!product.Id}">
 						<td>{!product.Name}</td>
 						<td>
-							<input type="text" class="form-control" placeholder="1"></input>
+							<input type="text" class="form-control quantities" placeholder="1"></input>
 						</td>
 						<td>
-							<input type="text" class="form-control" placeholder="{!product.Price_RMB__c}"></input>
+							<input type="text" class="form-control price" placeholder="{!product.Price_RMB__c}"></input>
 						</td>
-						<td>{!product.Cost_Dollar__c}</td>
+						<td>
+							<input type="text" class="form-control cost" placeholder="{!product.Cost_Dollar__c}"></input>
+						</td>
 						<td>{!product.Major_Category__c}</td>
 						<td>{!product.Minor_Category__c}</td>
 						<td>{!product.Brand__c}</td>
@@ -46,10 +48,12 @@
 			</table>
 		</apex:pageBlock>
 
-		<apex:actionFunction action="{!testCall}" name="testCall" reRender="productsInfo"></apex:actionFunction>
+		<apex:actionFunction action="{!createOLIs}" name="createOLIs" reRender="oliInfo">
+			<apex:param name="productInfoListJsonString" assignTo="{!productInfoListJsonString}" value=""/>
+		</apex:actionFunction>
 	</apex:form>
 
 	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	<script src="https://69a2c88f.ngrok.io/js/script2.js"/>
+	<script src="https://f03166e4.ngrok.io/js/script2.js"/>
 </apex:page>

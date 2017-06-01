@@ -84,13 +84,6 @@ $(document).ready(function() {
       clearSelection();
     }
   });
-
-  // search for products (via calling apex:actionFunction "searchProducts")
-  $(".test-btn").click(function() {
-    testCall();
-
-  });
-
 });
 
 //// pagination scripts ////
