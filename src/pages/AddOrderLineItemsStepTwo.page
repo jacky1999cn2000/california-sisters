@@ -1,7 +1,7 @@
 <apex:page showHeader="true" sidebar="false" standardController="Order__c" extensions="OrderControllerExtension">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
-	<link rel="stylesheet" type="text/css" href="https://f03166e4.ngrok.io/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="https://9106bea7.ngrok.io/css/style.css"/>
 
 	<!-- header -->
 	<div class="header">
@@ -23,7 +23,7 @@
 					<th>名称</th>
 					<th>数量</th>
 					<th>价格(￥)</th>
-					<th>成本($)</th>
+					<th>成本(￥)</th>
 					<th>大类</th>
 					<th>小类</th>
 					<th>品牌</th>
@@ -35,10 +35,10 @@
 							<input type="text" class="form-control quantities" placeholder="1"></input>
 						</td>
 						<td>
-							<input type="text" class="form-control price" placeholder="{!product.Price_RMB__c}"></input>
+							<input type="text" class="form-control price" placeholder="{!product.Price_RMB__c}" value="{!product.Price_RMB__c}"></input>
 						</td>
 						<td>
-							<input type="text" class="form-control cost" placeholder="{!product.Cost_Dollar__c}"></input>
+							<input type="text" class="form-control cost" placeholder="{!product.Cost_Dollar__c}" value="{!ROUND(product.Cost_Dollar__c * $Setup.Moc_Config__c.ExchangeRate__c,2)}"></input>
 						</td>
 						<td>{!product.Major_Category__c}</td>
 						<td>{!product.Minor_Category__c}</td>
@@ -55,5 +55,5 @@
 
 	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	<script src="https://f03166e4.ngrok.io/js/script2.js"/>
+	<script src="https://9106bea7.ngrok.io/js/script2.js"/>
 </apex:page>

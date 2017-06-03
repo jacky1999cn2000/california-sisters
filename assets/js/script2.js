@@ -53,6 +53,8 @@ $(document).ready(function() {
         error4 = true;
         return false;
       }
+      console.log('productInfo.price ', productInfo.price);
+      console.log('productInfo.cost ', productInfo.cost);
       if (productInfo.price <= productInfo.cost) {
         error5 = true;
         return false;
