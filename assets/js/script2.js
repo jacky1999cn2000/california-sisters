@@ -4,7 +4,7 @@ $(document).ready(function() {
   console.log('page2 ready');
 
   // create order line items (via calling apex:actionFunction "createOLIs")
-  $(".create-btn").click(function() {
+  $(".select-btn").click(function() {
 
     // populate productInfoList
     let productInfoList = [];
