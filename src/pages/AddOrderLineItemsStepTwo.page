@@ -10,8 +10,8 @@
 		<ins>步骤 2/2</ins>
 	</div>
 
-	<div class="create-btn-box">
-		<button type="button" class="create-btn">Create OrderLineItems</button>
+	<div class="single-btn-box">
+		<button type="button" class="select-btn">Create OrderLineItems</button>
 	</div>
 
 	<apex:form>

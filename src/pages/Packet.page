@@ -6,7 +6,7 @@
 	<!-- header -->
 	<div class="header">
 		<img src="/img/icon/leaf32.png"></img>
-		<span>创建包裹清单</span>
+		<span>添加订单项</span>
 	</div>
 
 	<apex:form>
@@ -36,7 +36,7 @@
 			</div>
 		</apex:pageBlock>
 
-		<!-- products -->
+		<!-- order line items -->
 		<apex:pageBlock title="未发送订单项" id="undeliveredOLIs">
 
 			<!-- table -->
@@ -54,8 +54,8 @@
 				</apex:column>
 				<apex:column headerValue="买家名称" value="{!orderlineitem.Order__r.Customer__r.Name}"/>
 				<apex:column headerValue="产品名称" value="{!orderlineitem.Product__r.Name}"/>
-				<apex:column headerValue="价格" value="{!orderlineitem.Price_RMB__c}"/>
-				<apex:column headerValue="成本" value="{!orderlineitem.Cost_RMB__c}"/>
+				<apex:column headerValue="价格(￥)" value="{!orderlineitem.Price_RMB__c}"/>
+				<apex:column headerValue="成本(￥)" value="{!orderlineitem.Cost_RMB__c}"/>
 			</apex:pageBlockTable>
 
 			<!-- pagination -->

@@ -1,0 +1,48 @@
+<apex:page showHeader="true" sidebar="false" standardController="Packet__c" extensions="PacketControllerExtension">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://9106bea7.ngrok.io/css/style.css"/>
+
+	<!-- header -->
+	<div class="header">
+		<img src="/img/icon/leaf32.png"></img>
+		<span>移除订单项</span>
+	</div>
+
+	<div class="single-btn-box">
+		<button type="button" class="select-btn">Remove OrderLineItems</button>
+	</div>
+
+	<apex:form>
+		<!-- orderlineitem info -->
+		<apex:pageBlock title="已添加订单项" id="relatedOLIs">
+
+			<!-- table -->
+			<apex:pageBlockTable value="{!SelectedOrderLineItems}" var="orderlineitem">
+				<apex:column >
+					<apex:facet name="header">
+						<input type="checkbox" id="selectallsightingscheckbox" onClick="selectAll();"/>
+					</apex:facet>
+					<input type="checkbox" id="{!orderlineitem.Id}" onClick="saveSelection();"/>
+				</apex:column>
+				<apex:column headerValue="订单编号">
+					<apex:outputLink value="/{!orderlineitem.Id}" target="_blank">
+						<apex:outputText value="{!orderlineitem.Name}"></apex:outputText>
+					</apex:outputLink>
+				</apex:column>
+				<apex:column headerValue="买家名称" value="{!orderlineitem.Order__r.Customer__r.Name}"/>
+				<apex:column headerValue="产品名称" value="{!orderlineitem.Product__r.Name}"/>
+				<apex:column headerValue="价格(￥)" value="{!orderlineitem.Price_RMB__c}"/>
+				<apex:column headerValue="成本(￥)" value="{!orderlineitem.Cost_RMB__c}"/>
+			</apex:pageBlockTable>
+		</apex:pageBlock>
+
+		<apex:actionFunction action="{!removeOrderLineItems}" name="removeOrderLineItems" reRender="relatedOLIs">
+			<apex:param name="removeOrderLineItemIds" assignTo="{!removeOrderLineItemIds}" value=""/>
+		</apex:actionFunction>
+	</apex:form>
+
+	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://9106bea7.ngrok.io/js/script4.js"/>
+</apex:page>

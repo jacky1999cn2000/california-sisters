@@ -10,8 +10,11 @@ public with sharing class PacketControllerExtension {
   public String customerId { get; set; }
   public String productId { get; set; }
 
-  /* comma delimited product ids for selected order line items (passed in by javascript function) */
+  /* comma delimited order line item ids for selected order line items (passed in by javascript function) */
   public String orderLineItemIds { get; set; }
+
+  /* comma delimited order line item ids for order line items that need to be removed from current packet (passed in by javascript function) */
+  public String removeOrderLineItemIds { get; set; }
 
   public PacketControllerExtension(ApexPages.StandardController stdController) {
     this.packet = (Packet__c)stdController.getRecord();
@@ -66,6 +69,14 @@ public with sharing class PacketControllerExtension {
   }
 
   /*
+     get function for selected order line items
+   */
+  public List<OrderLineItem__c> getSelectedOrderLineItems(){
+    List<OrderLineItem__c> orderLineItemList = [SELECT Id, Name, Order__r.Customer__r.Name, Product__r.Name, Price_RMB__c, Cost_RMB__c FROM OrderLineItem__c WHERE Packet__c = : this.packet.Id];
+    return orderLineItemList;
+  }
+
+  /*
      search for order line items
    */
   public PageReference searchOrderLineItems(){
@@ -84,6 +95,24 @@ public with sharing class PacketControllerExtension {
       List<OrderLineItem__c> orderLineItemList = [SELECT Id, Packet__c FROM OrderLineItem__c WHERE Id IN : orderLineItemIdList];
       for (OrderLineItem__c orderLineItem : orderLineItemList) {
         orderLineItem.Packet__c = this.packet.Id;
+      }
+      update orderLineItemList;
+    }
+
+    PageReference pr = new PageReference('/'+this.packet.Id);
+    pr.setRedirect(true);
+    return pr;
+  }
+
+  /*
+     remove order line items
+   */
+  public PageReference removeOrderLineItems(){
+    if(removeOrderLineItemIds != null && removeOrderLineItemIds.trim() != '') {
+      List<String> orderLineItemIdList = removeOrderLineItemIds.split(',');
+      List<OrderLineItem__c> orderLineItemList = [SELECT Id, Packet__c FROM OrderLineItem__c WHERE Id IN : orderLineItemIdList];
+      for (OrderLineItem__c orderLineItem : orderLineItemList) {
+        orderLineItem.Packet__c = null;
       }
       update orderLineItemList;
     }
