@@ -138,10 +138,6 @@ public class OrderControllerExtension {
   public PageReference createOLIs(){
     // deserialize JSON string "productInfo" into Apex class
     List<ProductInfo> productInfoList = (List<ProductInfo>)JSON.deserialize(productInfoListJsonString, List<ProductInfo>.class);
-    System.debug('***productInfoList '+productInfoList);
-
-    Moc_Config__c moc = Moc_Config__c.getOrgDefaults();
-    System.debug('***moc.ExchangeRate__c '+moc.ExchangeRate__c);
 
     List<OrderLineItem__c> orderLineItemList = new List<OrderLineItem__c>();
     for(ProductInfo productInfo : productInfoList) {
@@ -150,7 +146,7 @@ public class OrderControllerExtension {
         orderLineItem.Order__c = this.order.Id;
         orderLineItem.Product__c = Id.valueOf(productInfo.productId);
         orderLineItem.Price_RMB__c = productInfo.price;
-        orderLineItem.Cost_RMB__c = productInfo.cost * moc.ExchangeRate__c;
+        orderLineItem.Cost_RMB__c = productInfo.cost;
         orderLineItemList.add(orderLineItem);
       }
     }

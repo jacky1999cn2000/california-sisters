@@ -1,0 +1,86 @@
+<apex:page showHeader="true" sidebar="false" standardController="Packet__c" extensions="PacketControllerExtension">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://9106bea7.ngrok.io/css/style.css"/>
+
+	<!-- header -->
+	<div class="header">
+		<img src="/img/icon/leaf32.png"></img>
+		<span>创建包裹清单</span>
+	</div>
+
+	<apex:form>
+		<!-- search -->
+		<apex:pageBlock title="筛选订单项" id="filterOrderLineItems">
+			<div class="search-criteria-box">
+				<div class="search-criteria-item" style="width: 200px;">
+					<strong>买家名称</strong>
+					<select class="form-control customer-name">
+						<option value="novalue">-未选择-</option>
+					</select>
+				</div>
+				<div class="search-criteria-item" style="width: 200px;">
+					<strong>产品名称</strong>
+					<select class="form-control product-name">
+						<option value="novalue">-未选择-</option>
+					</select>
+				</div>
+				<div class="search-criteria-item">
+					<strong></strong>
+					<button type="button" class="search-btn">Search</button>
+				</div>
+				<div class="search-criteria-item">
+					<strong></strong>
+					<button type="button" class="select-btn">Select</button>
+				</div>
+			</div>
+		</apex:pageBlock>
+
+		<!-- products -->
+		<apex:pageBlock title="未发送订单项" id="undeliveredOLIs">
+
+			<!-- table -->
+			<apex:pageBlockTable value="{!OrderLineItems}" var="orderlineitem">
+				<apex:column >
+					<apex:facet name="header">
+						<input type="checkbox" id="selectallsightingscheckbox" onClick="selectAll();"/>
+					</apex:facet>
+					<input type="checkbox" id="{!orderlineitem.Id}" onClick="saveSelection();"/>
+				</apex:column>
+				<apex:column headerValue="订单编号">
+					<apex:outputLink value="/{!orderlineitem.Id}" target="_blank">
+						<apex:outputText value="{!orderlineitem.Name}"></apex:outputText>
+					</apex:outputLink>
+				</apex:column>
+				<apex:column headerValue="买家名称" value="{!orderlineitem.Order__r.Customer__r.Name}"/>
+				<apex:column headerValue="产品名称" value="{!orderlineitem.Product__r.Name}"/>
+				<apex:column headerValue="价格" value="{!orderlineitem.Price_RMB__c}"/>
+				<apex:column headerValue="成本" value="{!orderlineitem.Cost_RMB__c}"/>
+			</apex:pageBlockTable>
+
+			<!-- pagination -->
+			<div class="paging-buttons-group">
+				<apex:commandButton reRender="undeliveredOLIs" value="第一页" action="{!setCon.first}" disabled="{!!setCon.hasPrevious}" oncomplete="restoreSelection()"/>
+				<apex:commandButton reRender="undeliveredOLIs" value="前一页" action="{!setCon.previous}" disabled="{!!setCon.hasPrevious}" oncomplete="restoreSelection()"/>
+				<apex:outputText >Page {!setCon.pageNumber} of {!CEILING(noOfRecords/setCon.pageSize)}</apex:outputText>
+				<apex:commandButton reRender="undeliveredOLIs" value="下一页" action="{!setCon.next}" disabled="{!!setCon.hasNext}" oncomplete="restoreSelection()"/>
+				<apex:commandButton reRender="undeliveredOLIs" value="最后页" action="{!setCon.last}" disabled="{!!setCon.hasNext}" oncomplete="restoreSelection()"/>
+			</div>
+		</apex:pageBlock>
+
+		<!-- action function -->
+		<apex:actionFunction action="{!searchOrderLineItems}" name="searchOrderLineItems" reRender="undeliveredOLIs">
+			<apex:param name="customerId" assignTo="{!customerId}" value=""/>
+			<apex:param name="productId" assignTo="{!productId}" value=""/>
+		</apex:actionFunction>
+
+		<apex:actionFunction action="{!selectOrderLineItems}" name="selectOrderLineItems" reRender="productsInfo">
+			<apex:param name="orderLineItemIds" assignTo="{!orderLineItemIds}" value=""/>
+		</apex:actionFunction>
+
+	</apex:form>
+
+	<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"/>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://9106bea7.ngrok.io/js/script3.js"/>
+</apex:page>

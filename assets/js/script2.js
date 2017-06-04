@@ -49,13 +49,11 @@ $(document).ready(function() {
         error3 = true;
         return false;
       }
-      if (productInfo.quantities <= 0 || productInfo.price <= 0 || productInfo.cost <= 0) {
+      if (parseInt(productInfo.quantities) <= 0 || parseFloat(productInfo.price) <= 0 || parseFloat(productInfo.cost) <= 0) {
         error4 = true;
         return false;
       }
-      console.log('productInfo.price ', productInfo.price);
-      console.log('productInfo.cost ', productInfo.cost);
-      if (productInfo.price <= productInfo.cost) {
+      if (parseFloat(productInfo.price) <= parseFloat(productInfo.cost)) {
         error5 = true;
         return false;
       }
