@@ -23,3 +23,4 @@
   * [Select picklist item's label in SOQL](https://salesforce.stackexchange.com/questions/4482/selected-picklist-item-label)
   * [jQuery toastr](https://github.com/CodeSeven/toastr)
   * [Call Apex From Custom Button](http://blog.shivanathd.com/2014/07/call-apex-class-from-custom-button-salesforce.html)
+  * [Write data in Google Spreadsheet using APEX](https://salesforce.stackexchange.com/questions/112124/how-can-i-write-data-in-google-spreadsheet-using-apex)
