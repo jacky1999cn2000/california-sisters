@@ -24,3 +24,5 @@
   * [jQuery toastr](https://github.com/CodeSeven/toastr)
   * [Call Apex From Custom Button](http://blog.shivanathd.com/2014/07/call-apex-class-from-custom-button-salesforce.html)
   * [Write data in Google Spreadsheet using APEX](https://salesforce.stackexchange.com/questions/112124/how-can-i-write-data-in-google-spreadsheet-using-apex)
+  * [List Organization Limits via RESTful API](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_limits.htm)
+  * [Calling SF RESTful API within Apex](https://developer.salesforce.com/forums/?id=906F00000009ACSIA2)
