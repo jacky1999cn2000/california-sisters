@@ -20,8 +20,10 @@ $(document).ready(function() {
           productInfo.quantities = value;
         } else if ($(this).hasClass('price')) {
           productInfo.price = value;
-        } else {
+        } else if ($(this).hasClass('cost')) {
           productInfo.cost = value;
+        } else {
+          productInfo.notes = value;
         }
       });
 

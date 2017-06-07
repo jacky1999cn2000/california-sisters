@@ -147,6 +147,7 @@ public class OrderControllerExtension {
         orderLineItem.Product__c = Id.valueOf(productInfo.productId);
         orderLineItem.Price_RMB__c = productInfo.price;
         orderLineItem.Cost_RMB__c = productInfo.cost;
+        orderLineItem.Notes__c = productInfo.notes;
         orderLineItemList.add(orderLineItem);
       }
     }
@@ -163,6 +164,7 @@ public class OrderControllerExtension {
     public Integer quantities;
     public Decimal price;
     public Decimal cost;
+    public String notes;
   }
 
   /*
