@@ -11,7 +11,7 @@
 		<ins>步骤 1/2</ins>
 	</div>
 
-	<apex:form>
+	<apex:form >
 		<!-- search -->
 		<apex:pageBlock title="选择产品" id="findProducts">
 			<div class="search-criteria-box">

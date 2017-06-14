@@ -14,7 +14,7 @@
 		<button type="button" class="select-btn">Remove OrderLineItems</button>
 	</div>
 
-	<apex:form>
+	<apex:form >
 		<!-- orderlineitem info -->
 		<apex:pageBlock title="已添加订单项" id="relatedOLIs">
 
